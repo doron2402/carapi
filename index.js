@@ -33,7 +33,7 @@ server.route( [{
     "path"    : "/test/get/{id}",
     "handler" : testRoute
 },{
-   "method"  : "DEL",
+   "method"  : "DELETE",
     "path"    : "/data/del/all",
     "handler" : deleteAll
 }]);
