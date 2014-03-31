@@ -32,14 +32,30 @@ server.route( [{
     "method"  : "GET",
     "path"    : "/test/get/{id}",
     "handler" : testRoute
+},{
+   "method"  : "DEL",
+    "path"    : "/data/del/all",
+    "handler" : deleteAll
 }]);
+
+function deleteAll (request, reply) {
+    var db = request.server.plugins['hapi-mongodb'].db;
+    db.collection("data").remove({},function(err,numberRemoved){
+
+        console.log("inside remove call back" + numberRemoved);
+        return reply({code: 'OK', data: numberRemoved});
+    });
+};
 
 function usersHandler(request, reply) {
     var db = request.server.plugins['hapi-mongodb'].db;
     var ObjectID = request.server.plugins['hapi-mongodb'].ObjectID;
     db.collection('data').findOne({  "_id" : new ObjectID(request.params.id) }, function(err, result) {
-        if (err) return reply(Hapi.error.internal('Internal MongoDB error', err));
-        reply(result);
+        if (err) {
+            return reply(Hapi.error.internal('Internal MongoDB error', err));
+        }
+
+        return reply(result);
     });
 };
 
