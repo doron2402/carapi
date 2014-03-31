@@ -65,7 +65,7 @@ function getData (request, reply) {
 
         reply({docs: results, code:'OK'});
         // Let's close the db
-        db.close();
+        //db.close();
       });
 };
 
