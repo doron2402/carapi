@@ -33,10 +33,26 @@ server.route( [{
     "path"    : "/test/get/{id}",
     "handler" : testRoute
 },{
+    "method"  : "GET",
+    "path"    : "/cars/data/{id}",
+    "handler" : getDataById
+},{
    "method"  : "DELETE",
     "path"    : "/data/del/all",
     "handler" : deleteAll
 }]);
+
+function getDataById (request, reply) {
+    var db = request.server.plugins['hapi-mongodb'].db;
+    var carId = parseInt(request.params.id,10);
+    var collection = db
+      .collection('data')
+      .find({carId: carId})
+      .toArray(function(err, docs) {
+        console.dir(docs);
+        return reply({data: docs});
+    });
+};
 
 function deleteAll (request, reply) {
     var db = request.server.plugins['hapi-mongodb'].db;
