@@ -10,7 +10,6 @@ var dbOpts = {
         }
     }
 };
-
 var server = new Hapi.Server(APP.PORT);
 
 server.pack.require('hapi-mongodb', dbOpts, function(err) {
@@ -40,7 +39,24 @@ server.route( [{
    "method"  : "DELETE",
     "path"    : "/data/del/all",
     "handler" : deleteAll
+},{
+    "method"  : "DELETE",
+    "path"    : "/cars/data/{id}",
+    "handler" : deleteById
 }]);
+
+function deleteById (request, reply) {
+    var db = request.server.plugins['hapi-mongodb'].db;
+    var carId = parseInt(request.params.id,10);
+    var collection = db.collection('data');
+    collection.remove({carId: carId}, {w:1}, function(err, result) {
+        if (err) {
+            return reply({data: err});
+        }
+
+        return reply({data: result});
+    });
+};
 
 function getDataById (request, reply) {
     var db = request.server.plugins['hapi-mongodb'].db;
