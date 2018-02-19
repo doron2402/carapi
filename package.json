@@ -21,7 +21,7 @@
     "url": "https://github.com/doron2402/carapi/issues"
   },
   "dependencies": {
-    "hapi": "~3.1.0",
+    "hapi": "~13.4.0",
     "hapi-mongodb": "~2.0.1"
   }
 }
